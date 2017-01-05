@@ -1,7 +1,6 @@
 
 body {margin:0 auto;overflow:hidden;}  
-
-/*=============第一页=============*/	
+	
 .header{
 	margin:0 auto;
 	width:100%;
@@ -18,6 +17,7 @@ body {margin:0 auto;overflow:hidden;}
 .header .canvaszz{  /*用来解决视频右键菜单，用于视频上面的遮罩层*/
 	width:100%;
 	background-image: url(img/in_top_bj.jpg);
+	background-size:100% 640px;
 	height:640px;
 	position:absolute;
 	z-index:10;
@@ -37,24 +37,13 @@ body {margin:0 auto;overflow:hidden;}
       -khtml-opacity: 0.3;  
       opacity: 0.3;
 	}
-.header .top_logo{
-	/*background-image: url(img/top_logo.png);*/
-	margin:0 auto;
-	width:750px;
-	height:200px;
-	position:absolute;
-	z-index:30;
-	top:10px;
-	left: 52%;
-	margin-left: -390px;
-	}	
 
 .header .nav{
 	width:804px;
 	height:auto;
 	position:absolute;
 	z-index:30;
-	top:420px;
+	top:500px;
 	left: 50%;
 	margin-left: -400px;
 	}
@@ -69,12 +58,9 @@ body {margin:0 auto;overflow:hidden;}
 	cursor:pointer;
 	float:left;/*左浮动*/
 	margin:8px 2px 8px 2px;
-	font:18px/43px 'microsoft yahei'; color:#066197;
+	font:18px/43px 'microsoft yahei'; color:#ffffff;
 	}
-.header .nav a.gv span {
-	 display: none;
-	 	
-}
+
 .header .nav a.gv:hover { 
 	background: url(img/nav_gv.png) repeat 0px -43px; 
 	color:#1d7eb8;
@@ -84,10 +70,9 @@ body {margin:0 auto;overflow:hidden;}
 	
 .header	.topcn{
 	width: 980px;
-	top:200px;
+	top:240px;
 	left: 50%;
 	margin-left: -490px;
 	position:absolute;
 	z-index:20;
-
 	}

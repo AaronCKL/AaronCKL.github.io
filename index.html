@@ -2,24 +2,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>炫酷星空引导页</title>
-<link rel=”Bookmark” href=”favicon.ico” />
+<title>AARON</title>
 <link href="css/index_style.css" rel="stylesheet" type="text/css">
 
 </head>
 <body>
 
-<!-----Star：http://ouch.me/----->
-
-
 <div class="header" id="demo">
-	<div class="top_logo"></div>  
-     
-	<div class="topcn" style="font:20px/18px 'microsoft yahei'; color:#0FF;text-align:center;">
-	  <p>&nbsp;</p>
-	  <p>welcome</p>
-	</div>
-    
     <div class="nav">
     	<a class="gv" href="#">个人简历</a>
         <a class="gv" href="aaa.html">俄罗斯方块</a>
@@ -32,25 +21,13 @@
   <div class="canvaszz"> </div>
   <canvas id="canvas"></canvas> 
 </div>
-
-
-<!-----HEADER END----->
-
-<!--用来解决视频右键菜单，用于视频上面的遮罩层 START-->
 <div class="videozz"></div>
-<!--用来解决视频右键菜单，用于视频上面的遮罩层 END-->
-
-<!--音乐 START-->
 	<audio controls="true" autoplay="autoplay" class="audio">
         <source src="css/Music.mp3" type="audio/mp3"> 
         <source src="css/Music.ogg" type="audio/ogg"> 
         <source src="css/Music.aac" type="audio/mp4"> 
     </audio>
-<!--音乐 END-->
-
-
 <script>
-//宇宙特效
 "use strict";
 var canvas = document.getElementById('canvas'),
   ctx = canvas.getContext('2d'),
@@ -110,7 +87,7 @@ var Star = function() {
   this.orbitX = w / 2;
   this.orbitY = h / 2;
   this.timePassed = random(0, maxStars);
-  this.speed = random(this.orbitRadius) / 50000; 
+  this.speed = random(this.orbitRadius) / 500000; 
   //星星移动速度
   this.alpha = random(2, 10) / 10;
 
@@ -151,9 +128,7 @@ function animation() {
 
   window.requestAnimationFrame(animation);
 }
-
 animation();
 </script>
-
 </body>
 </html>
