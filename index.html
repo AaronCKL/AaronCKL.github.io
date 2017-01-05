@@ -7,7 +7,8 @@
 
 </head>
 <body>
-
+  <div class="black" id="black"> </div>
+    <div class="black1" id="black1">正在&nbsp;<span style="font-size:50px;color:#E0EEEE;">loading……</span>&nbsp;哦</div>
 <div class="header" id="demo">
     <div class="nav">
     	<a class="gv" href="#">个人简历</a>
@@ -129,6 +130,12 @@ function animation() {
   window.requestAnimationFrame(animation);
 }
 animation();
+window.onload=function(){
+var zz=document.getElementById("black");
+var zzz=document.getElementById("black1");
+zz.style.display="none";
+zzz.style.display="none";
+}
 </script>
 </body>
 </html>
