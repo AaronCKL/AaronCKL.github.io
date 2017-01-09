@@ -1,0 +1,222 @@
+﻿<!doctype html>
+<html>
+<head>
+<title>俄罗斯方块</title>
+<style type="text/css">
+*{padding:0;margin:0;overflow:hidden;}
+</style>
+</head>
+<body>
+<div style="width:70%;height:630px;float:left;"><canvas id="can" width="360px" height="630px" style="display: block;margin: 12px auto;"></canvas></div>
+<div style="width:30%;height:630px;float:left">
+<div style="width:100%;height:150px;"></div>
+<div style="width:100%;height:100px;padding:0 27px;"><button id="you" style="border-radius:12px;font-size:17px;width:100px;height:30px;border:0;background-color:#00FFFF;">开始</button></div>
+<div style="width:100%;height:50px;padding:0 50px;"><button onclick="bian()" style="border-radius:12px;font-size:27px;width:50px;height:50px;border:0;background-color:#00FFFF;">↑</button></div>
+<div style="width:100%;height:50px;">
+<button onclick="move(-1)" style="border-radius:12px;font-size:27px;width:50px;height:50px;border:0;background-color:#00FFFF;float:left;">←</button>
+<button onclick="down()" style="border-radius:12px;font-size:27px;width:50px;height:50px;border:0;background-color:#00FFFF;float:left;">↓</button>
+<button onclick="move(1)" style="border-radius:12px;font-size:27px;width:50px;height:50px;border:0;background-color:#00FFFF;float:left;">→</button>
+</div>
+<p style="display:block;margin-top:60px;font-size:25px;">请按键或者点击上图按钮来操作游戏</p>
+</div>
+<script>
+    var ssss=1;
+    var aini=document.getElementById("you");
+	aini.addEventListener("click",jjj,false);
+	function jjj(){
+	    if(ssss==1){
+		 start1();
+		 aini.innerHTML="暂停";
+		}else if(ssss==2){
+		stop();
+		aini.innerHTML="开始";
+		}else{
+		 aini.innerHTML="结束";
+		}
+	}
+	ctx=document.getElementById("can").getContext("2d");
+	ctx.fillStyle='black';
+    ctx.fillRect(30,0,300,600);
+	//保存键盘对应的function
+	var key={"38":"bian()","40":"down()","37":"move(-1)","39":"move(1)"};  
+	//整个地图
+	var hh=eval("["+"1,"+new Array(11).join("0,")+"1]"); 
+	var gg=eval("["+new Array(12).join("1,")+"1]");
+	var map=new Array(21);
+	for(var i=0;i<20;i++)
+	       map[i]=hh.slice(0);
+	map[20]=gg;
+	//canvas填充
+	function ff(x,y,c){
+	    x=x*30;y=y*30;
+        ctx.fillStyle=c;
+        ctx.fillRect(x,y,28,28);
+	}
+	//随机产生方块
+	function tatris(){
+	        var block = new Array(4);
+			var ss= ~~(Math.random()*7);
+			switch(ss){
+                case 0:{      
+                    block[0] = {x:5, y:0};      
+                    block[1] = {x:5, y:1};      
+                    block[2] = {x:6, y:0};      
+                    block[3] = {x:6, y:1};      
+                    break;      
+                }      
+                case 1:{      
+                    block[0] = {x:4, y:0};      
+                    block[1] = {x:5, y:0};      
+                    block[2] = {x:6, y:0};      
+                    block[3] = {x:7, y:0};      
+                    break;      
+                }      
+                case 2:{      
+                    block[0] = {x:6, y:0};      
+                    block[1] = {x:5, y:1};      
+                    block[2] = {x:6, y:1};      
+                    block[3] = {x:5, y:2};      
+                    break;      
+                }      
+                case 3:{      
+                    block[0] = {x:5, y:0};      
+                    block[1] = {x:5, y:1};      
+                    block[2] = {x:6, y:1};      
+                    block[3] = {x:6, y:2};      
+                    break;      
+                }      
+                case 4:{      
+                    block[0] = {x:5, y:0};      
+                    block[1] = {x:5, y:1};      
+                    block[2] = {x:6, y:1};      
+                    block[3] = {x:7, y:1};      
+                    break;      
+                }      
+                case 5:{      
+                    block[0] = {x:5, y:0};      
+                    block[1] = {x:5, y:1};      
+                    block[2] = {x:5, y:2};      
+                    block[3] = {x:6, y:2};      
+                    break;      
+                }      
+                case 6:{      
+                    block[0] = {x:6, y:0};      
+                    block[1] = {x:5, y:1};      
+                    block[2] = {x:6, y:1};      
+                    block[3] = {x:7, y:1};      
+                    break;      
+                }     
+            }    
+            return block;          
+	}
+	//键盘function
+	document.onkeydown=function(e){
+	  eval(key[(e?e:event).keyCode]);
+	}
+	//移动
+	function move(t){
+	        for(var i=0;i<4;i++)
+	           lcblock[i].x = lcblock[i].x+t;     
+	        if(pan()) return;
+	        xuan1();
+	        llblock=copyBlock(lcblock);
+	}
+	//旋转变换
+	function bian(){
+	        var temp=copyBlock(lcblock);
+	        var x1=Math.round((lcblock[0].x+lcblock[1].x+lcblock[2].x+lcblock[3].x)/4);
+	        var y1=Math.round((lcblock[0].y+lcblock[1].y+lcblock[2].y+lcblock[3].y)/4);
+	        for(var i=0;i<4;i++){
+	           lcblock[i].x = -y1+x1+temp[i].y;     
+               lcblock[i].y = y1-temp[i].x+x1; 
+	           }
+	        if(pan()) return;
+	        xuan1();
+	        llblock=copyBlock(lcblock);
+	}
+	//检测是否重合
+	function pan(){
+	         for(var i=0;i<4;i++)
+                if(map[lcblock[i].y][lcblock[i].x]==1||lcblock[i].y<0)
+                     return lcblock=copyBlock(llblock);		 
+	}
+	//gameover
+	function over(){
+             clearInterval(run);
+			 ssss=3;
+             alert("game ovar!");	   
+	}
+	//下落
+	function down(){
+            	for(var i=0;i<4;i++)//下落
+				    lcblock[i].y++;					
+				if(pan()){
+                   	for(var g=0;g<4;g++)
+					      map[lcblock[g].y][lcblock[g].x]=1;//重塑map地图
+                    for(var k=0;k<20;k++){  //消行
+					    for(var j=0;j<12;j++)
+	                           if(map[k][j]==0)
+                                   break;							   
+						if(j==12){
+                          map.splice(k,1);
+                          map.unshift(hh.slice(0));						  
+						}
+					}	
+                    for(var nn=0;nn<12;nn++)
+					    if(map[1][nn]!=hh[nn])
+					       break;
+                    if(nn!=12)
+                      return over();
+                    start();					
+			    }	
+                else{			 
+				     xuan1();
+				     llblock=copyBlock(lcblock);
+				}
+	}
+	//备份
+    function copyBlock(old){    
+          var o = new Array(4);    
+          for(var i=0; i<4; i++)     
+                o[i] = {x:0, y:0};      
+          for(var i=0; i<4; i++){      
+                o[i].x = old[i].x;      
+                o[i].y = old[i].y;      
+          }    
+          return o;   
+    }    
+	//渲染整个map地图
+	function xuan(){
+	          ctx.fillStyle='black';
+              ctx.fillRect(30,0,300,600);
+                for(var i=0;i<20;i++)
+                   for(var j=1;j<=10;j++)
+                        if(map[i][j]==1)
+                            ff(j,i,'Lime');		 
+	}
+	//渲染方块
+	function xuan1(){
+             for(var i=0;i<4;i++)
+	             ff(llblock[i].x,llblock[i].y,'black');
+	         for(var i=0;i<4;i++)
+	             ff(lcblock[i].x,lcblock[i].y,'Lime');
+	}
+	//开始
+	function start(){
+             lcblock=tatris();
+		     llblock=copyBlock(lcblock);
+		     xuan();
+		     xuan1();
+	}
+	function start1(){
+	    ssss=2;
+	    start();
+		run=setInterval("down()",600);
+	}
+    function stop(){
+	    ssss=1;
+	    clearInterval(run);
+	}
+</script>
+</body>
+</html>

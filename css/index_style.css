@@ -51,25 +51,14 @@ body {margin:0 auto;overflow:hidden;}
       	opacity: 0.4;
 	}
 
-.audio{ 
-/*设置音乐显示位置*/
-	width:45px;
-	position:fixed;top:65px;left:94%;
-	z-index:100;
-	filter:alpha(opacity=30);  
-      -moz-opacity:0.3;  
-      -khtml-opacity: 0.3;  
-      opacity: 0.3;
-	}
-
 .header .nav{
-	width:804px;
+	width:704px;
 	height:auto;
 	position:absolute;
 	z-index:30;
 	top:500px;
 	left: 50%;
-	margin-left: -400px;
+	margin-left: -350px;
 	}
 .header .nav a.gv { 
 	text-decoration:none; 
