@@ -44,7 +44,7 @@ body {margin:0 auto;overflow:hidden;}
 	background-size:100% 640px;
 	height:640px;
 	position:absolute;
-	z-index:10;
+	z-index:-2;
 		filter:alpha(opacity=40);  
       	-moz-opacity:0.4;  
       	-khtml-opacity: 0.4;  
@@ -62,7 +62,6 @@ body {margin:0 auto;overflow:hidden;}
 	}
 .header .nav a.gv { 
 	text-decoration:none; 
-	background:url(img/nav_gv.png) repeat 0px 0px; 
 	width: 130px; 
 	height: 43px; 
 	display: block; 
@@ -71,13 +70,12 @@ body {margin:0 auto;overflow:hidden;}
 	cursor:pointer;
 	float:left;/*左浮动*/
 	margin:8px 2px 8px 2px;
-	font:18px/43px 'microsoft yahei'; color:#ffffff;
+	font:22px/43px 'microsoft yahei'; color:#ffffff;
 	}
 
 .header .nav a.gv:hover { 
-	background: url(img/nav_gv.png) repeat 0px -43px; 
-	color:#1d7eb8;
-	-webkit-box-shadow: 0 0 6px #1d7eb8;
+	color:#ffffff;
+	-webkit-box-shadow: 0 0 6px #ffffff;
 	transition-duration: 0.5s;
 	}
 	
