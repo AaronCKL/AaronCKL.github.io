@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>canvas</title>
+    <title>时钟</title>
     <style type="text/css">
         #canvas{
             display: block;
@@ -15,75 +15,62 @@
     </canvas>
 </body>
 <script type="text/javascript">
-    var canvas = document.getElementById("canvas");
-    var cans = canvas.getContext("2d");
+    var cans = document.getElementById("canvas").getContext("2d");
 	var ss=[],aa=0,dd=[],ww=[];
-	var today=new Date();
-	var hh=today.getMinutes();
-    var zz=today.getHours()%12*5
-	zz=zz+Math.floor(hh/12);
-    var ll=today.getSeconds();
-	cans.font = "bold 14px Arial";
+	var half=150,hourLength=60,minuteLength=80,secondLength=100;
+    var gradient2 = cans.createRadialGradient(half, half, 0, half, half, half);
+    gradient2.addColorStop(0, '#00008B');
+    gradient2.addColorStop(1, '#40E0D0');
+    cans.fillStyle = gradient2;
+    cans.beginPath();
+    cans.arc(half,half,half,0,2*Math.PI,false);
+    cans.fill();
+	cans.font = "bold 25px Arial";
     cans.textAlign="center";
 	cans.textBaseline="middle";
-	cans.fillStyle="green";
+	cans.fillStyle="#FFFFFF";
 	for(var times=0; times<60; times++) {
       var hudu = (2*Math.PI / 360) * 6 * times;
-	  ss[times]={};
-	  dd[times]={};
-	  ww[times]={};
-        ss[times].X = 150 + Math.sin(hudu) * 85;
-        ss[times].Y = 150 - Math.cos(hudu) * 85;
-		dd[times].X = 150 + Math.sin(hudu) * 65;
-        dd[times].Y = 150 - Math.cos(hudu) * 65;
-		ww[times].X = 150 + Math.sin(hudu) * 45;
-        ww[times].Y = 150 - Math.cos(hudu) * 45;
-		if(times%5==0)
-	  {
-	       if(aa==0)
-		   aa=12;
-	       cans.fillText(aa,150 + Math.sin(hudu) * 93,150 - Math.cos(hudu) * 93);
-		   if(aa==12)
-		   aa=0;
+	  ss[times]={};//秒针的每一圈
+	  dd[times]={};//分针的每一圈
+	  ww[times]={};//时针的每一圈
+      ss[times].X = half + Math.sin(hudu) * secondLength;
+      ss[times].Y = half - Math.cos(hudu) * secondLength;
+      dd[times].X = half + Math.sin(hudu) * minuteLength;
+      dd[times].Y = half - Math.cos(hudu) * minuteLength;
+      ww[times].X = half + Math.sin(hudu) * hourLength;
+      ww[times].Y = half - Math.cos(hudu) * hourLength;
+		if(times%5==0)//绘图
+	      {
+	       aa=aa%12==0?12:aa%12;
+	       cans.fillText(aa,half + Math.sin(hudu) * (half-25),half - Math.cos(hudu) * (half-25));
 		   aa++;
-	  }   
+	      }   
        }
-	       cans.beginPath();
-           cans.arc(150,150,112,0,2*Math.PI,false);
-           cans.moveTo(252,150);
-           cans.arc(150,150,102,0,2*Math.PI,false);
-		   cans.strokeStyle = 'red';
-		   cans.stroke();
 	function nihao(c,s){
-		    cans.strokeStyle = 'red';
-            cans.moveTo(150,150);//第一个起点
+		    cans.strokeStyle = '#FFFFFF';
+		    cans.lineWidth=2;
+            cans.moveTo(half,half);//第一个起点
             cans.lineTo(c,s);
 	}
 	function hao(){
+		   var g = cans.createRadialGradient(half, half, 0, half, half, half);
+            g.addColorStop(0, '#00008B');
+            g.addColorStop(1, '	#40E0D0');
+            cans.fillStyle = g;
 	       cans.beginPath();
-           cans.moveTo(150,150);
-           cans.arc(150,150,86,0,2*Math.PI,false);
-		   cans.fillStyle = 'white';
+           cans.moveTo(half,half);
+           cans.arc(half,half,secondLength,0,2*Math.PI,false);
 		   cans.fill();
 	}
         (function pageLoad(){
+         var today=new Date();
 		 hao();
-          ll++;
-		  ll=ll%60;
-			cans.beginPath();
-		   //第二个点
-		   nihao(ss[ll].X,ss[ll].Y);
-		   if(ll%60==0){
-		   hh++;
-		   hh=hh%60;
-		   }
-		   if(hh%12==0){
-		   zz++;
-		   zz=zz%60;
-		   }
-			nihao(dd[hh].X,dd[hh].Y);
-			nihao(ww[zz].X,ww[zz].Y);
-            cans.stroke();
+		 cans.beginPath();
+		 nihao(ss[today.getSeconds()].X,ss[today.getSeconds()].Y);
+		 nihao(dd[today.getMinutes()].X,dd[today.getMinutes()].Y);
+		 nihao(ww[today.getHours()%12*5+Math.floor(today.getMinutes()/12)].X,ww[today.getHours()%12*5+Math.floor(today.getMinutes()/12)].Y);
+         cans.stroke();
          setTimeout(arguments.callee,1000);
         })();
 </script>
