@@ -4,10 +4,66 @@
 <title>俄罗斯方块</title>
 <style type="text/css">
 *{padding:0;margin:0;overflow:hidden;}
+td
+{
+width: 30px;
+height: 30px;
+background-color:#ffffff; 
+}
+a{
+    color:#ffffff;
+    text-decoration: none;
+    font:28px/43px 'microsoft yahei';
+}
+.black{
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: #9D9D9D;
+            z-index: 1001;
+            -moz-opacity: 0.65;
+            opacity: .65;
+            filter: alpha(opacity=65);
+    }
+.black1{
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 500px;
+            height:200px;
+            margin-left:-250px;
+            background-color: #0000C8;
+            margin-top:-180px;
+            padding-top: 110px;
+            z-index: 1002;
+            color:#ffffff;
+            font:38px/43px 'microsoft yahei'; 
+            text-align:center;
+            border-radius: 20px;
+    }
 </style>
 </head>
 <body>
-<div style="width:70%;height:630px;float:left;"><canvas id="can" width="360px" height="630px" style="display: block;margin: 12px auto;"></canvas></div>
+<div class="black" id="black"> </div>
+    <div class="black1" id="black1"></div>
+<div style="width:50%;height:630px;float:left;">
+<canvas id="can" width="360px" height="630px" style="float:right;display: block;margin-top:12px;margin-right:0px;"></canvas>
+</div>
+<div style="width:20%;height:630px;float:left;">
+<table id="ni" width=120px height="90px" style="margin-top:30px;">
+<tr><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td></tr>
+</table>
+<div style="color:#0000C6;width:70%;height:50px;margin-top:100px;text-align: center;font-size: 28px;">分数:</div>
+<div id="fen" style="color:#0000C6;width:70%;height:50px;text-align: center;font-size: 28px;"></div>
+<div style="color:#0000C6;width:70%;height:50px;text-align: center;font-size: 28px;">最高分:</div>
+<div id="fen_1" style="color:#0000C6;width:70%;height:50px;text-align: center;font-size: 28px;"></div>
+</div>
 <div style="width:30%;height:630px;float:left">
 <div style="width:100%;height:150px;"></div>
 <div style="width:100%;height:100px;padding:0 27px;"><button id="you" style="border-radius:12px;font-size:17px;width:100px;height:30px;border:0;background-color:#00FFFF;">开始</button></div>
@@ -20,8 +76,14 @@
 <p style="display:block;margin-top:60px;font-size:25px;">请按键或者点击上图按钮来操作游戏</p>
 </div>
 <script>
-    var ssss=1;
+    var ssss=1,xiayige,grade=0,speed=600,c_close=0;
     var aini=document.getElementById("you");
+    var table = document.getElementById("ni");
+    var fensu = document.getElementById("fen");
+    var fensu_1 = document.getElementById("fen_1");
+    var fensu_2;
+    fensu_2=getCookie();
+    fensu_1.innerHTML=fensu_2;
 	aini.addEventListener("click",jjj,false);
 	function jjj(){
 	    if(ssss==1){
@@ -107,11 +169,21 @@
                     break;      
                 }     
             }    
+            for(var i=0;i<3;i++)
+            	 for(var j=0;j<4;j++)
+                 {
+                 table.rows.item(i).cells.item(j).style.backgroundColor="#FFFFFF";
+                 }
+            for(var i=0;i<4;i++){
+                 table.rows.item(block[i].y).cells.item(block[i].x-4).style.backgroundColor="#0000EE";
+            }
             return block;          
 	}
 	//键盘function
 	document.onkeydown=function(e){
-	  eval(key[(e?e:event).keyCode]);
+      if(c_close)
+        return false;
+       eval(key[(e?e:event).keyCode]);
 	}
 	//移动
 	function move(t){
@@ -142,15 +214,19 @@
 	}
 	//gameover
 	function over(){
+		     if(grade>fensu_2){
+		     	setCookie(grade);
+		     }
              clearInterval(run);
 			 ssss=3;
-             alert("game ovar!");	   
+             show();	   
 	}
 	//下落
 	function down(){
             	for(var i=0;i<4;i++)//下落
 				    lcblock[i].y++;					
 				if(pan()){
+					var hello=0;
                    	for(var g=0;g<4;g++)
 					      map[lcblock[g].y][lcblock[g].x]=1;//重塑map地图
                     for(var k=0;k<20;k++){  //消行
@@ -158,10 +234,14 @@
 	                           if(map[k][j]==0)
                                    break;							   
 						if(j==12){
+							hello++;
                           map.splice(k,1);
                           map.unshift(hh.slice(0));						  
 						}
 					}	
+					 hello=hello==0?1:hello*11;
+                     grade+=hello;
+                     fen.innerHTML=grade;
                     for(var nn=0;nn<12;nn++)
 					    if(map[1][nn]!=hh[nn])
 					       break;
@@ -203,20 +283,59 @@
 	}
 	//开始
 	function start(){
-             lcblock=tatris();
+             lcblock=xiayige;
 		     llblock=copyBlock(lcblock);
 		     xuan();
 		     xuan1();
+		     xiayige=tatris();
+		     if(grade>400&&speed==600||grade>800&&speed==400)
+		     {
+		     	speed=grade>800?200:400;
+		     	clearInterval(run);
+		     	run=setInterval("down()",speed);
+		     }
 	}
 	function start1(){
 	    ssss=2;
+	    xiayige=tatris();
 	    start();
-		run=setInterval("down()",600);
+		run=setInterval("down()",speed);
 	}
     function stop(){
 	    ssss=1;
 	    clearInterval(run);
 	}
+	function setCookie(value)
+    {
+        var Days = 30;
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days*24*60*60*1000);
+        document.cookie =  "grade="+ value + ";expires=" + exp.toGMTString();
+     }
+     function getCookie()
+     {
+     	 var c_start=document.cookie.indexOf("grade="); 
+     	 if(c_start==-1)
+     	 	return 0;
+     	 else{
+         var gra=document.cookie.split("=")[1];
+         return gra;
+         }
+     }
+     function show(){
+        c_close=1;
+        var zz=document.getElementById("black");
+        var zzz=document.getElementById("black1");
+        zzz.innerHTML="您的得分："+grade+"<p><a href='index.html'>&nbsp;&nbsp;返回&nbsp;&nbsp;</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='javascript:window.location.reload()'>再玩一次</a></p>";
+        zz.style.display="block";
+        zzz.style.display="block";
+     }
+     // function close(){
+     //    var zz=document.getElementById("black");
+     //    var zzz=document.getElementById("black1");
+     //    zz.style.display="none";
+     //    zzz.style.display="none";
+     // }
 </script>
 </body>
 </html>
