@@ -73,10 +73,10 @@ body {margin:0 auto;overflow:hidden;}
 	font:22px/43px 'microsoft yahei'; color:#ffffff;
 	}
 
-.header .nav a.gv:hover { 
-	color:#ffffff;
-	-webkit-box-shadow: 0 0 6px #ffffff;
-	transition-duration: 0.5s;
+.header .nav a.gv:hover>span { 
+	padding-bottom:3px;
+	 border-bottom:2px solid #FFF;
+	/*transition-duration: 0.5s;*/
 	}
 	
 .header	.topcn{
